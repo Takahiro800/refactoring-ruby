@@ -56,7 +56,7 @@ class Customer
       # case文は積極的に分割して別メソッドにできる
       # ここはelemntは不変なので引数として処理することができる
       # 変更される変数がthis_amountだけなので、これを戻り値にする
-      this_amount = amount_for(element)
+      this_amount = element.charge
 
       # レンタルポイントを加算
       frequent_renter_points += 1
