@@ -34,6 +34,10 @@ class Rental
     end
     result
   end
+
+  def frequent_renter_points
+    (movie.price_code == Movie::NEW_RELAEASE && days_rented > 1) ? 2 : 1
+  end
 end
 
 class Customer
@@ -57,12 +61,6 @@ class Customer
 
       frequent_renter_points = frequent_renter_points(element)
 
-      # # レンタルポイントを加算
-      # frequent_renter_points += 1
-
-      # # 新作2日間レンタルでボーナス点を加算
-      # frequent_renter_points += 1 if element.movie.price_code == Movie::NEW_RELAEASE && element.days_rented > 1
-
       # このレンタルの料金を表示
       result += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"
       total_amount += this_amount
@@ -74,7 +72,7 @@ class Customer
     result
   end
 
-  def frequent_renter_points(element)
-    (movie.price_code == Movie::NEW_RELAEASE && element.days_rented > 1) ? 2 : 1
+  def frequent_renter_points(rental)
+    rental.frequent_renter_points
   end
 end

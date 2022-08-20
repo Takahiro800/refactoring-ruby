@@ -46,7 +46,7 @@ end
 
 class B
 	def origin_medhot(a: intance_of(A))
-		A.hoge
+		a.hoge
 		# こんな感じで最初のテストは元のメソッドの中で移行の確認をする
 	end
 end
