@@ -59,7 +59,7 @@ class Customer
     @rentals.each do |element|
       this_amount = element.charge
 
-      frequent_renter_points = frequent_renter_points(element)
+      frequent_renter_points += element.frequent_render_points
 
       # このレンタルの料金を表示
       result += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"
@@ -70,9 +70,5 @@ class Customer
     result += "Amount owed is #{total_amount}\n"
     result += "You earned #{frequent_renter_points} frequent renter points"
     result
-  end
-
-  def frequent_renter_points(rental)
-    rental.frequent_renter_points
   end
 end
