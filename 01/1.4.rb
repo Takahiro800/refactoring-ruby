@@ -53,9 +53,6 @@ class Customer
     total_amount, frequent_renter_points = 0, 0
     result = "Rental Record for #{@name}\n"
     @rentals.each do |element|
-      # case文は積極的に分割して別メソッドにできる
-      # ここはelemntは不変なので引数として処理することができる
-      # 変更される変数がthis_amountだけなので、これを戻り値にする
       this_amount = element.charge
 
       # レンタルポイントを加算
@@ -73,9 +70,5 @@ class Customer
     result += "Amount owed is #{total_amount}\n"
     result += "You earned #{frequent_renter_points} frequent renter points"
     result
-  end
-
-  def amount_for(rental)
-    rental.charge
   end
 end
