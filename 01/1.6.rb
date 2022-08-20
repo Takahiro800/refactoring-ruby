@@ -54,18 +54,14 @@ class Customer
 
   # レシートを作成する
   def statement
-    # total_amount, frequent_renter_points = 0, 0
     frequent_renter_points = 0
 
     result = "Rental Record for #{@name}\n"
     @rentals.each do |element|
-      this_amount = element.charge
-
       frequent_renter_points += element.frequent_render_points
 
       # このレンタルの料金を表示
-      result += "\t" + element.movie.title + "\t" + this_amount.to_s + "\n"
-      # total_amount += this_amount
+      result += "\t" + element.movie.title + "\t" + element.charge.to_s + "\n"
     end
 
     # フッター行を追加
