@@ -4,10 +4,20 @@ class Movie
   CHILDRENS = 2
 
   attr_reader :title
-  attr_accessor :price_code
 
-  def initialize(title, price_code)
-    @title, @price_code = title, price_code
+  ############################
+  # 敢えてカスタムセッターメソッドを導入
+  attr_reader :price_code
+
+  def price_code=(value)
+    @price_code = value
+  end
+
+  #  ここまで
+  ############################
+
+  def initialize(title, the_price_code)
+    @title, @price_code = title, the_price_code
   end
 
   def charge(days_rented)
@@ -30,6 +40,15 @@ class Movie
   def frequent_renter_points(days_rented)
     (price_code == NEW_RELAEASE && days_rented > 1) ? 2 : 1
   end
+end
+
+class RegularPrice
+end
+
+class NewReleasePrice
+end
+
+class ChildrensPrice
 end
 
 class Rental
