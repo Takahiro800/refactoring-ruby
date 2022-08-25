@@ -12,10 +12,13 @@ class Movie
   def price_code=(value)
     @price_code = value
     @price = case price_code
-      when REGULAR: RegularPrice.neww
-      when NEW_RELAEASE: NewReleasePrice.new
-      when CHILDRENS: ChildrensPrice.new
-    end
+      when REGULAR
+        RegularPrice.new
+      when NEW_RELAEASE
+        NewReleasePrice.new
+      when CHILDRENS
+        ChildrensPrice.new
+      end
   end
 
   #  ここまで
@@ -31,8 +34,7 @@ class Movie
     # 各行の金額を計算
     case price_code
     when REGULAR
-      result += 2
-      result += (days_rented - 2) * 1.5 if days_rented > 2
+      @price.charge(days_rented)
     when NEW_RELAEASE
       result += days_rented * 3
     when CHILDRENS
@@ -48,6 +50,11 @@ class Movie
 end
 
 class RegularPrice
+  def charge(days_rented)
+    resutl = 2
+    result += (days_rented - 2) * 1.5 if days_rented > 2
+    result
+  end
 end
 
 class NewReleasePrice
@@ -103,12 +110,12 @@ class Customer
     result = "<h1>Renatals for <em>#{@name}</em></h1><p>\n"
     @rentals.each do |element|
       # このレンタルの料金を表示
-      result += "\t" + each.movie.title + ': ' + element.charge.to_s + "<br>\n"
+      result += "\t" + each.movie.title + ": " + element.charge.to_s + "<br>\n"
     end
 
     # フッターを追加
     result += "<p>You owe <em>#{total_charge}</em><p>\n"
-    result += 'On this rental you earned ' + "<em>#{total_frequent_reter_points}</em> " + 'frequent reter points<p>'
+    result += "On this rental you earned " + "<em>#{total_frequent_reter_points}</em> " + "frequent reter points<p>"
     result
   end
 
