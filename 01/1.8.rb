@@ -29,15 +29,7 @@ class Movie
   end
 
   def charge(days_rented)
-    # 各行の金額を計算
-    case price_code
-    when REGULAR
-      @price.charge(days_rented)
-    when NEW_RELAEASE
-      @price.charge(days_rented)
-    when CHILDRENS
-      @price.charge(days_rented)
-    end
+    @price.charge(days_rented)
   end
 
   def frequent_renter_points(days_rented)
