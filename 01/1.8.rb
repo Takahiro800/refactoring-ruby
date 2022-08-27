@@ -1,31 +1,17 @@
 class Movie
+  # movie = Movie.new("The Watchmen", NewReleasePrice.new)
+  # movie.price = RegularPrice.new
+
   REGULAR = 0
   NEW_RELAEASE = 1
   CHILDRENS = 2
 
-  attr_reader :title
-
-  ############################
-  # 敢えてカスタムセッターメソッドを導入
-  attr_reader :price_code
-
-  def price_code=(value)
-    @price_code = value
-    @price = case price_code
-      when REGULAR
-        RegularPrice.new
-      when NEW_RELAEASE
-        NewReleasePrice.new
-      when CHILDRENS
-        ChildrensPrice.new
-      end
-  end
-
-  #  ここまで
-  ############################
+  attr_reader :title, :price_code
+  attr_writer :price
 
   def initialize(title, the_price_code)
-    @title, @price_code = title, the_price_code
+    @title, = title
+    @price_code = the_price_code
   end
 
   def charge(days_rented)
@@ -39,7 +25,7 @@ end
 
 class RegularPrice
   def charge(days_rented)
-    resutl = 2
+    result = 2
     result += (days_rented - 2) * 1.5 if days_rented > 2
     result
   end
@@ -63,7 +49,8 @@ class Rental
   attr_reader :movie, :days_rented
 
   def initialize(movie, days_rented)
-    @movie, @days_rented = movie, days_rented
+    @movie = movie
+    @days_rented = days_rented
   end
 
   def charge
