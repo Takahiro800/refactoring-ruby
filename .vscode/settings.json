@@ -1,0 +1,11 @@
+{
+    "[ruby]": {
+      "editor.tabSize": 2,
+      // rufoがsingle quoteに対応していないため
+      "editor.formatOnSave": false,
+    },
+    "ruby.lint": {
+      "rubocop": true
+    },
+    "ruby.format": "rubocop",
+}
