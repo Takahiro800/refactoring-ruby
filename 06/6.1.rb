@@ -25,9 +25,9 @@ class SampleNoLocalVariableBefore
     outstanding = 0.0
 
     # バナーを出力（print banner）
-    puts '**************************'
-    puts '******** Customer Owes *******'
-    puts '**************************'
+    puts "**************************"
+    puts "******** Customer Owes *******"
+    puts "**************************"
 
     # 勘定計算(caluculate outstainding)
     @orders.each do |order|
@@ -58,9 +58,9 @@ class SampleNoLocalVariableAfter
 
   def print_banner
     # バナーを出力
-    puts '**************************'
-    puts '******** Customer Owes *******'
-    puts '**************************'
+    puts "**************************"
+    puts "******** Customer Owes *******"
+    puts "**************************"
   end
 end
 
@@ -84,9 +84,9 @@ class ExtractMethodWithLocalVaribaleBefore
 
   def print_banner
     # バナーを表示
-    puts '**************************'
-    puts '******** Customer Owes *******'
-    puts '**************************'
+    puts "**************************"
+    puts "******** Customer Owes *******"
+    puts "**************************"
   end
 end
 
@@ -108,13 +108,61 @@ class ExtractMethodWithLocalVaribaleAfter
 
   def print_banner
     # バナーを表示
-    puts '**************************'
-    puts '******** Customer Owes *******'
-    puts '**************************'
+    puts "**************************"
+    puts "******** Customer Owes *******"
+    puts "**************************"
   end
 
   def print_details(outstanding)
     puts "name: #{@name}"
     puts "amount: #{outstanding}"
+  end
+end
+
+# ローカル変数への再代入
+class ExtractMethodReassignmentToLocalVariablesBefore
+  def print_owing
+    outstanding = 0.0
+
+    print_banner
+
+    # 勘定を計算
+    @orders.each do |order|
+      outstanding += order.amount
+    end
+
+    print_details(outstanding)
+  end
+end
+
+class ExtractMethodReassignmentToLocalVariablesStep1
+  def print_owing
+    print_banner
+    outstanding = caluculate_outstanding
+
+    print_details(outstanding)
+  end
+
+  def calculate_outstandiing
+    outstanding = 0.0
+    @orders.each do |order|
+      outstanding += order.amount
+    end
+
+    outstanding
+  end
+end
+
+# #　抽出したメソッドをテストしてから、injectを使う
+class ExtractMethodReassignmentToLocalVariablesStep2
+  def print_owing
+    print_banner
+    outstanding = caluculate_outstanding
+
+    print_details(outstanding)
+  end
+
+  def calculate_outstandiing
+    @orders.inject(0.0) { |result, order| result + order.amount }
   end
 end
