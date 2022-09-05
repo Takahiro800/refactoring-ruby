@@ -166,3 +166,46 @@ class ExtractMethodReassignmentToLocalVariablesStep2
     @orders.inject(0.0) { |result, order| result + order.amount }
   end
 end
+
+# 変数が複雑な操作を受けている場合
+class ExtractMethodRessaignmentToLocalVaribalesVersion2::Before
+  def print_owing(previous_amount)
+    outstanding = previous_amount * 1.2
+
+    print_banner
+
+    # 勘定を計算（ calculate outstanding ）
+    @orders.each do |order|
+      outstanding += order.amount
+    end
+
+    print_details(outstanding)
+  end
+end
+
+# 抽出後
+class ExtractMethodRessaignmentToLocalVaribalesVersion2::After
+  def print_owing(previous_amount)
+    outstanding = previous_amount * 1.2
+    print_banner
+    outstanding = caluculate_outstanding(outstanding)
+    print_details(outstanding)
+  end
+
+  def caluculate_outstanding(initial_value)
+    @orders.inject(initial_value) { |result, order| result + order.amount }
+  end
+end
+
+# 初期値をわかりやすく
+class ExtractMethodRessaignmentToLocalVaribalesVersion2::Step2
+  def print_owing(previous_amount)
+    print_banner
+    outstanding = caluculate_outstanding(previous_amount * 1.2)
+    print_details(outstanding)
+  end
+
+  def caluculate_outstanding(initial_value)
+    @orders.inject(initial_value) { |result, order| result + order.amount }
+  end
+end
