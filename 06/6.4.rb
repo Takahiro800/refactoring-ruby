@@ -69,3 +69,27 @@ class SampleStep1 < ReplaceTempWithQuery
     @quantity * @item_price
   end
 end
+
+# 一時変数のインライン化
+class SampleStep2 < ReplaceTempWithQuery
+  attr_reader :quantity, :item_price
+
+  def price
+    a_base_price = base_price
+
+    # ここでa_base_priceを使わない
+    if base_price > 1000
+      discount_factor = 0.95
+    else
+      discount_factor = 0.98
+    end
+
+    a_base_price * discount_factor
+  end
+
+  private
+
+  def base_price
+    @quantity * @item_price
+  end
+end
