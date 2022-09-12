@@ -112,3 +112,38 @@ class SmapleStep3 < ReplaceTempWithQuery
     @quantity * @item_price
   end
 end
+
+# discount_factorもメソッドに
+class SampleStep4 < ReplaceTempWithQuery
+  attr_reader :quantity, :item_price
+
+  def price
+    a_disccount_factor = discount_factor
+    base_price * a_disccount_factor
+  end
+
+  def base_price
+    @quantity * @item_price
+  end
+
+  def discount_factor
+    base_price > 1000 ? 0.95 : 0.98
+  end
+end
+
+# 仕上げ
+class Sample < ReplaceTempWithQuery
+  attr_reader :quantity, :item_price
+
+  def price
+    base_price * discount_factor
+  end
+
+  def base_price
+    @quantity * @item_price
+  end
+
+  def discount_factor
+    base_price > 1000 ? 0.95 : 0.98
+  end
+end
