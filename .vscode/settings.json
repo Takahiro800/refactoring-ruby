@@ -1,11 +1,14 @@
 {
   "[ruby]": {
     "editor.tabSize": 2,
-    // rufoがsingle quoteに対応していないため
-    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "castwide.solargraph",
+    "editor.formatOnSave": true
   },
   "ruby.lint": {
     "rubocop": true
   },
-  // "ruby.format": "rubocop",
+  "solargraph.diagnostics": true,
+  "ruby.format": "rubocop",
+  "solargraph.commandPath": "/Users/taemath/.rbenv/shims/solargraph",
+  "solargraph.formatting": true,
 }

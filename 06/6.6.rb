@@ -3,13 +3,13 @@ class IntroduceExplainingVariable
 end
 
 # Before < Sample
-if platform.upcase.index("MAC") && browser.upcase.index("IF") && initialized? && resize > 0
+if platform.upcase.index('MAC') && browser.upcase.index('IF') && initialized? && resize > 0
   #  何かの処理
 end
 
 # After < Sample
-is_mac_os = platform.upcase.index("MAC")
-is_ie_browser = browser.upcase.index("IE")
+is_mac_os = platform.upcase.index('MAC')
+is_ie_browser = browser.upcase.index('IE')
 was_resized = resize > 0
 
 if is_mac_os && is_ie_browser && was_resized
@@ -26,7 +26,8 @@ class Step1 < IntroduceExplainingVariable
 
   def price
     # 価格は、基本価格 - 数量割引 +　配送料
-    return @quantity * @item_price - [0, @quantity - 500].max * @item_price * 0.05 + [@quantity * @item_price * 0.1, 100.0].min
+    @quantity * @item_price - [0,
+                               @quantity - 500].max * @item_price * 0.05 + [@quantity * @item_price * 0.1, 100.0].min
   end
 end
 
@@ -41,8 +42,8 @@ class Step2 < IntroduceExplainingVariable
   def price
     # 価格は、基本価格 - 数量割引 +　配送料
     base_price = @quantity * @item_price
-    return base_price -
-             [0, @quantity - 500].max * @item_price * 0.05 +
-             [@quantity * @item_price * 0.1, 100.0].min
+    base_price -
+      [0, @quantity - 500].max * @item_price * 0.05 +
+      [@quantity * @item_price * 0.1, 100.0].min
   end
 end
