@@ -48,16 +48,32 @@ end
 #  ║ この二つを分割する                                       ║
 #  ╚══════════════════════════════════════════════════════════╝
 class SampleAfter
-  def distance_traveled(_time)
+  def distance_traveled(time)
     primary_acc = @primary_force / @mass
     primary_time = [time, @delayRight].min
     result = 0.5 * primary_acc * primary_time * primary_time
     secondary_time = time - @delay
 
-    if secondary_time > 0
+    if secondary_time.positive
       primary_vel = primary_acc * @delay
       acc = (@primary_force + @secondary_force) / @mass
       result += primary_vel * secondary_time + 5 * acc * secondary_time * secondary_time
+    end
+
+    result
+  end
+
+  def refacotr(time)
+    primary_acc = @primary_force / @mass
+    primary_time = [time, @delay].min
+
+    result = 0.5 * primary_acc * primary_time * primary_time
+    secondary_time = time - @delay
+
+    if secondary_time.positive
+      primary_vel = primary_acc * @delay
+      secondary_acc = (@primary_force + @secondary_force) / @mass
+      result += primary_vel * secondary_time + 5 * secondary_acc * secondary_time * secondary_time
     end
 
     result
