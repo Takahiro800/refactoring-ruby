@@ -54,3 +54,33 @@ end
 4. 古いメソッドを参照している箇所を全て新しいメソッドを参照するように置き換える
 
 ## 1.6 一時変数の削除
+
+# 第６章　メソッドの構成方法
+## 6.11 ループからコレクションクロージャメソッドへ
+## 6.12 サンドイッチメソッドの抽出
+### 理由
+ユニークなコードがメソッドの中央にある場合、Rubyのブロックを使えばうまく処理できる
+### 手順
+1. 重複部分に対して「メソッドの抽出」を行う
+2. テストする
+3. サンドイッチメソッドにブロックを渡すようにお呼び出し元のコードを書き換える。そして、サンドイッチメソッドに含まれているユニークなロジックをブロックにコピーする。
+4. サンドイッチメソッドに残っていたユニークなロジックを消して、代わりにyeildキーワードを追加する。
+5. サンドイッチメソッド内にあって、ブロックに移した部分で必要になる変数を津恋止めて、yieldに対する引数として渡す
+6. テストする
+7. 新しいサンドイッチメソッドを使える他の部分も書き換える
+
+## 6.13
+- `define_method`
+[Module#define\_method (Ruby 3.1 リファレンスマニュアル)](https://docs.ruby-lang.org/ja/latest/method/Module/i/define_method.html)
+  - インスタンスメソッドを定義する
+  - ブロックを与えた場合、定義したメソッドの実行時にブロックがレシーバクラスのインスタンスの上でBasicObject#instance_evalされる
+- `instance_variable_set`
+[Object#instance\_variable\_set (Ruby 3.1 リファレンスマニュアル)](https://docs.ruby-lang.org/ja/latest/method/Object/i/instance_variable_set.html)
+  - オブジェクトのインスタンス変数varに値valueを設定する
+  - インスタンス変数が定義されていない場合、新たに定義する
+  ```ruby
+    obj = Object.new
+    p obj.instance_variable_set("@foo", 1) <!-- 1 -->
+    p obj.instance_variable_set(:@foo, 2) <!-- 2 -->
+    p obj.instance_variable_get(:@foo) <!-- 2 -->
+  ```
