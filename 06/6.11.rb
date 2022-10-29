@@ -46,8 +46,10 @@ class ReplaceLoopWithCollectionClosureMethod
                                 .collect(&:office) # 行末をドットにすると、Rubyは行末を文の区切りと考えてはならないと判断する
     end
 
-    合計の計算のように、
-    ループ内でひとつの値を生み出すような処理をしなければならない時には、
-    injectを検討する
+    #  ╓                                                                                                  ╖
+    #  ║     合計の計算のように、                                                                         ║
+    #  ║     ループ内でひとつの値を生み出すような処理をしなければならない時には、                         ║
+    #  ║     injectを検討する                                                                             ║
+    #  ╙                                                                                                  ╜
   end
 end
