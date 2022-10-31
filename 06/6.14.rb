@@ -111,7 +111,7 @@ class IntroduceNamedParameter
       #  ╙                                                                                                  ╜
       class Step1
         class Books
-          def self.find(_selector, hash = {})
+          def self.find(selector, hash = {})
             hash[:joins] ||= []
             hash[:conditions] ||= ''
 
