@@ -67,4 +67,108 @@ class IntroduceNamedParameter
       #  ╙                                                                                                  ╜
     end
   end
+
+  class Sample2 # オプション引数だけに名前をつける
+    class Before
+      class Books
+        def self.find(selector, conditions = '', *joins)
+          sql = ['SELECT * FROM books']
+
+          joins.each do |join_table|
+            sql << "LEFT OUTER JOIN #{join_table} ON"
+            sql << "books.#{join_tables.to_s.chap}_id"
+            sql << " = #{join_tables}.id"
+          end
+
+          sql << "WHERE #{conditions}" unless conditions.empty?
+          sql << 'LIMIT 1' if selector == :first
+
+          connection.find(sql.join(' '))
+        end
+      end
+      #  ╓                                                                                                  ╖
+      #  ║       このコードのサンプル                                                                       ║
+      #  ╙                                                                                                  ╜
+
+      Books.find(:all)
+      Books.find(:all, 'title like `%Voodoo Economics`')
+      Books.find(:all, 'authors.name == `Jenny James`', :authors)
+      Books.find(:first, 'authors.name == `Jenny James`', :authors)
+
+      #  ╓                                                                                                  ╖
+      #  ║       joins引数は明確ではない。次の構文の方が、引数の使い方をきちんと伝えられる                  ║
+      #  ╙                                                                                                  ╜
+      Books.find(:all)
+      Books.find(:all, condittions: 'title like `%Voodoo Economics`')
+      Books.find(:all, conditions: 'authors.name == `Jenny James`', joins: [:authors])
+      Books.find(:first, conditions: 'authors.name == `Jenny James`', joins: [:authors])
+    end
+
+    class Refactor
+      #  ╓                                                                                                  ╖
+      #  ║ 名前をつけたい引数は、すでに引数リストの終わりの方にあるので、移動する必要はない。               ║
+      #  ║ conditions, joins引数をHashに取り替え、それに合わせてメソッド定義を書き換える                    ║
+      #  ╙                                                                                                  ╜
+      class Step1
+        class Books
+          def self.find(_selector, hash = {})
+            hash[:joins] ||= []
+            hash[:conditions] ||= ''
+
+            sql = ['SELECT * FROM books']
+            hash[:joins].each do |join_table|
+              sql << "LEFT OUTER JOIN #{join_table} ON"
+              sql << "books.#{join_talbe.to_s.chop}_id"
+              sql << "= #{join_table}.id"
+            end
+
+            sql << "WHERE #{hash[:conditions]}" unless hash[:conditions].empty?
+            sql << 'LIMIT 1' if selector == :first
+          end
+        end
+      end
+
+      #  ╓                                                                                                  ╖
+      #  ║       クラス定義を見ると、渡さなければならない引数はメソッド全体を読み通す必要がある             ║
+      #  ║       これは「アサーションの導入(Introduce Assertion)」によって改善できる                        ║
+      #  ╙                                                                                                  ╜
+      class Step2
+        module AssertValidKeys
+          def assert_valid_keys(*valid_keys)
+            unknown_keys = keys - [valid_keys].flatten
+
+            raise(ArgumentError, "Unknown keys(s): #{unknown_keys.join(', ')}") if unknown_keys.any?
+          end
+        end
+
+        Hash.include AssertValidKeys # module AssertValidKeysをインクルードする
+
+        class Books
+          def self.find(selector, hash = {})
+            hash.assert_valid_keys :conditions, :joins
+
+            hash[:joins] ||= []
+            hash[:conditions] ||= ''
+
+            sql = ['SELECT * FROM books']
+            hash[:joins].each do |join_table|
+              sql << "LEFT OUTER JOIN #{join_table}"
+              sql << "ON books.#{join_table.to_s.chop}_id = #{join_table}.id"
+            end
+
+            sql << "WHERE #{hash[:conditions]}" unless hash[:conditions].empty?
+            sql << 'LIMIT 1' if selector == :first
+
+            connection.find(sql.join(' '))
+          end
+        end
+      end
+
+      #  ╓                                                                                                  ╖
+      #  ║       Step2のメリットは、2つある                                                                 ║
+      #  ║       1.メソッドに渡したキーの綴りを間違えた時にすぐにフィードバックを得られること               ║
+      #  ║       2.アサーションが必要な引数を読み手に知らせる宣言文的役割を果たす                           ║
+      #  ╙                                                                                                  ╜
+    end
+  end
 end
