@@ -84,3 +84,8 @@ end
     p obj.instance_variable_set(:@foo, 2) <!-- 2 -->
     p obj.instance_variable_get(:@foo) <!-- 2 -->
   ```
+
+## 6.17
+#### instance_exec
+与えられたブロックをレシーバのコンテキストに当てて実行する
+- [BasicObject#instance\_exec (Ruby 3.1 リファレンスマニュアル)](https://docs.ruby-lang.org/ja/latest/method/BasicObject/i/instance_exec.html)
